@@ -29,7 +29,7 @@ export default function Home() {
   const [isFirefox, setIsFirefox] = useState(true);
   const [notificaton, setNotification] = useState(true);
   const [startCountdown, setStartCountdown] = useState(false);
-  const [countdown, setCountdown] = useState(3);
+  const [countdown, setCountdown] = useState(20);
   const [input, setInput] = useState({
     exerpt: "",
     reference: "",
