@@ -24,7 +24,6 @@ export default function Frame({ initialInput }: FrameProps) {
       await fetchLandscape(speculation);
     } catch (error) {
       console.error("Error fetching speculation:", error);
-      window.location.reload();
     }
   }
 
@@ -40,7 +39,6 @@ export default function Frame({ initialInput }: FrameProps) {
       setTimeout(() => speakDescription(speculation), 3000);
     } catch (error) {
       console.error("Error fetching landscape:", error);
-      window.location.reload();
     }
   }
 
