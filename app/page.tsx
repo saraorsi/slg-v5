@@ -47,9 +47,13 @@ export default function Home() {
       setIsFirefox(false);
     }
 
-    const getRandomInput = () =>
-      inputs[Math.floor(Math.random() * inputs.length)];
-    setInput(getRandomInput());
+    const savedIndex = localStorage.getItem("inputIndex");
+    let currentIndex = savedIndex ? parseInt(savedIndex) : 0;
+
+    currentIndex = (currentIndex + 1) % inputs.length;
+    localStorage.setItem("inputIndex", currentIndex.toString());
+
+    setInput(inputs[currentIndex]);
     setStartCountdown(true);
     setTimeout(() => playAudio(), 3000);
   }, []);
