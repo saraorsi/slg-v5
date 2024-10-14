@@ -48,7 +48,7 @@ export default function Home() {
     }
 
     const savedIndex = localStorage.getItem("inputIndex");
-    let currentIndex = savedIndex ? parseInt(savedIndex) : 0;
+    let currentIndex = savedIndex ? parseInt(savedIndex) : -1;
 
     currentIndex = (currentIndex + 1) % inputs.length;
     localStorage.setItem("inputIndex", currentIndex.toString());
