@@ -60,7 +60,7 @@ export default function Frame({ initialInput }: FrameProps) {
     const utterance = new SpeechSynthesisUtterance(speculation);
     utterance.voice = voices[132];
     utterance.rate = 0.9;
-    utterance.pitch = 1;
+    utterance.pitch = 1.1;
 
     utterance.onstart = () => {
       setInput(speculation);
