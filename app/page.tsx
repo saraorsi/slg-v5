@@ -45,12 +45,13 @@ export default function Home() {
   const [start, setStart] = useState(false);
   const [startFrames, setStartFrames] = useState(false);
   const [isFirefox, setIsFirefox] = useState(true);
-  const [notificaton, setNotification] = useState(true);
-  const [initalInput, setInitialInput] = useState({
+  const [notification, setNotification] = useState(true);
+  const [initialInput, setInitialInput] = useState({
     exerpt: "",
     reference: "",
     author: "",
   });
+  const [countdown, setCountdown] = useState(30);
 
   function handleCloseNotification() {
     setNotification(false);
@@ -72,46 +73,22 @@ export default function Home() {
     setInitialInput(
       inputs[currentIndex] || { exerpt: "", reference: "", author: "" }
     );
+
+    const countdownTimer = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown <= 1) {
+          clearInterval(countdownTimer);
+          playAudio();
+          setStart(true);
+          setStartFrames(true);
+          return 0;
+        }
+        return prevCountdown - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(countdownTimer);
   }, []);
-
-  useEffect(() => {
-    if (initalInput.exerpt !== "") {
-      const initalReading = `
-The web-based performance you'll see speculates through a feedback loop that takes as its starting point the quote from
-by ${initalInput.author} that says: ${initalInput.exerpt}`;
-      setTimeout(() => speakDescription(initalReading), 3000);
-    }
-  }, [initalInput]);
-
-  async function speakDescription(speculation: string): Promise<void> {
-    const synth = window.speechSynthesis;
-
-    await new Promise<void>((resolve) => {
-      const voices = synth.getVoices();
-      if (voices.length > 0) {
-        resolve();
-      } else if (synth.onvoiceschanged !== undefined) {
-        synth.onvoiceschanged = () => resolve();
-      } else {
-        resolve();
-      }
-    });
-
-    const voices = synth.getVoices();
-
-    const utterance = new SpeechSynthesisUtterance(speculation);
-    utterance.voice = voices[132];
-    utterance.rate = 0.9;
-    utterance.pitch = 1.1;
-
-    utterance.onend = () => {
-      playAudio();
-      setTimeout(() => setStart(true), 2000);
-      setTimeout(() => setStartFrames(true), 2000);
-    };
-
-    synth.speak(utterance);
-  }
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -135,7 +112,7 @@ by ${initalInput.author} that says: ${initalInput.exerpt}`;
 
   return (
     <>
-      {!isFirefox && notificaton && (
+      {!isFirefox && notification && (
         <div className="fixed top-0 left-0 w-full h-screen bg-slate-900/75 backdrop-blur-sm z-10 text-xl flex justify-center items-center">
           <div className="fixed top-5 right-6">
             <button className="text-2xl" onClick={handleCloseNotification}>
@@ -145,24 +122,29 @@ by ${initalInput.author} that says: ${initalInput.exerpt}`;
           For a better experience use Firefox.
         </div>
       )}
-      {!start && initalInput.exerpt != "" && (
+      {!start && initialInput.exerpt !== "" && (
         <div className="w-[900px] h-screen flex flex-col items-center justify-center m-auto text-justify-center text-last-center">
-          <div className="text-2xl mb-8 uppercase">SLG-V5</div>
-          <div className="text-sm mb-2">[initial inptut]</div>
-          <div className="text-lg mb-4">{initalInput.exerpt}</div>
-          <div className="text-sm mb-9">
-            {initalInput.reference}
-            <br />
-            {initalInput.author}
+          <div className="text-3xl mb-8 uppercase">SLG-V5</div>
+          <div className="text-sm mb-8">
+            The upcoming web-based performance speculates through
+            <br />a feedback loop with the following initial input
           </div>
-          <div className="text-sm mb-2"> [sound]</div>
+          <div className="text-lg mb-6">{initialInput.exerpt}</div>
+          <div className="text-sm mb-4">
+            {initialInput.reference}
+            <br />
+            {initialInput.author}
+          </div>
+          <div className="text-sm"> [sound]</div>
           <div className="text-sm mb-12">
             valt​​​Ü​​​ü​​​d by catarina arbusto
           </div>
+
+          <div className="text-2xl mb-12">starts in {countdown}s</div>
         </div>
       )}
 
-      {startFrames && <Frame initialInput={initalInput.exerpt} />}
+      {startFrames && <Frame initialInput={initialInput.exerpt} />}
       <audio ref={audioRef} style={{ display: "none" }}>
         <source src="./3626487201.mp3" type="audio/mp3" />
         Your browser does not support the audio element.
