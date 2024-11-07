@@ -18,7 +18,7 @@ export async function generateSpeculation(input: string) {
         },
         {
           role: "user",
-          content: `Craft a speculative narrative sentence, limit to 20 words, that follows: ##${input}##".`,
+          content: `Craft a speculative narrative sentence, limit to 20 words, that follows – ##${input}##" – without starting in the same way.`,
         },
       ],
     });
