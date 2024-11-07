@@ -40,6 +40,12 @@ export default function Home() {
       reference: "Vibrant Matter: A Political Ecology of Things",
       author: "Jane Bennett (2010)",
     },
+    {
+      exerpt:
+        "What if the meaning of AI is not to be found in the way it competes, supersedes or sup plants us? What if, like the emergence of network theory, its purpose is to open our eyes and minds to the reality of intelligence as doable in all kinds of fantastic ways, many of them beyond our own rational understanding?",
+      reference: "Ways of Being",
+      author: "James Bridle (2022)",
+    },
   ];
 
   const [start, setStart] = useState(false);
@@ -94,7 +100,7 @@ export default function Home() {
 
   const playAudio = () => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.2;
+      audioRef.current.volume = 0.1;
       audioRef.current.playbackRate = 0.6;
       audioRef.current.muted = true;
       audioRef.current
