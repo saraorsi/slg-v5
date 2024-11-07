@@ -14,7 +14,7 @@ export async function generateSpeculation(input: string) {
         {
           role: "system",
           content:
-            "I am an AI engaging in speculative narrative with a philosophical undertone.",
+            "I am an AI engaging in speculative narrative with a philosophical undertone that think in terms of “nature-culture” hybrids and multi-species entanglements",
         },
         {
           role: "user",
